@@ -12,11 +12,22 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var updateTimer: NSTimer!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        if UIApplication.sharedApplication().backgroundRefreshStatus == .Denied {
+            self.showAlert("The app doesn't work without the Background App Refresh enabled. If you want to turn it on, go to Settings > General > Background App Refresh")
+        } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
+            self.showAlert("If you want to explore the functions of this app, you have to allow Background App Refresh.")
+        } else {
+            let time: NSTimeInterval = 10.0
+            self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
+        }
         return true
+    }
+    
+    func trackLocation() {
+        NSLog("trackLocation")
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -40,7 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    private func showAlert(message: String){
+        let alert = UIAlertController(title: "Oops!", message:message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
+        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+        rootVC?.presentViewController(alert, animated: true){}
+    }
+    
 }
-
