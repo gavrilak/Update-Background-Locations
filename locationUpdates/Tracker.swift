@@ -11,6 +11,7 @@ import CoreLocation
 
 class LocationController : UIViewController, CLLocationManagerDelegate {
     
+    internal var restartTimer : Double!
     internal var saveBatteryTimer : Double!
     internal var trackingDistance : Double!
     internal var updateLocationTimer : Double!
@@ -129,7 +130,7 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         self.delayToStart.invalidate()
         self.delayToStart = nil
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "restartLocationUpdates", userInfo: nil, repeats: false)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(restartTimer, target: self, selector: "restartLocationUpdates", userInfo: nil, repeats: false)
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
