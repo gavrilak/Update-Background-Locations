@@ -9,28 +9,24 @@
 import UIKit
 import CoreLocation
 
-class LocationController : UIViewController, CLLocationManagerDelegate {
+public class TrackerController : UIViewController, CLLocationManagerDelegate {
     
-    internal var restartTimer : Double!
-    internal var saveBatteryTimer : Double!
-    internal var trackingDistance : Double!
-    internal var updateLocationTimer : Double!
+    public var restartTimer : Double!
+    public var saveBatteryTimer : Double!
+    public var trackingDistance : Double!
+    public var updateLocationTimer : Double!
     
-    var updateTimer: NSTimer!
-    var timer: NSTimer!
-    var delayToStart: NSTimer!
-    var bgTask: BackgroundTaskManager!
+    private var updateTimer: NSTimer!
+    private var timer: NSTimer!
+    private var delayToStart: NSTimer!
+    private var bgTask: BackgroundTaskManager!
     
     var latitude : Double = 0.0
     var longitude : Double = 0.0
     
-    var locationManager = CLLocationManager()
-    var myLastLocation: CLLocationCoordinate2D!
-    var myLastLocationAccuracy: CLLocationAccuracy!
-    var myLocation: CLLocationCoordinate2D!
-    var myLocationAccuracy: CLLocationAccuracy!
+    private var locationManager = CLLocationManager()
     
-    func location_init(){
+    public func location_init(){
         if UIApplication.sharedApplication().backgroundRefreshStatus == .Denied {
             showAlert("The app doesn't work without the Background App Refresh enabled. If you want to turn it on, go to Settings > General > Background App Refresh")
         } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
@@ -40,19 +36,7 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func trackLocation() {
-        NSLog("trackLocation")
-        self.updateLocationToServer()
-    }
-    
-    private func showAlert(message: String){
-        let alert = UIAlertController(title: "Error!", message:message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
-        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
-        rootVC?.presentViewController(alert, animated: true){}
-    }
-    
-    private func startLocationManager(){
+    public func startLocationManager(){
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.allowsBackgroundLocationUpdates = true
@@ -62,22 +46,8 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
     }
-    
-    func restartLocationUpdates() {
-        NSLog("restartLocationUpdates")
-        if (self.timer != nil) {
-            self.timer.invalidate()
-            self.timer = nil
-        }
-        self.locationManager.startUpdatingLocation()
-    }
-    
-    func applicationEnterBackground() {
-        self.startLocationManager()
-        self.bgTask = BackgroundTaskManager().mainBackgroundTaskManager()
-    }
-    
-    func startLocationTracking() {
+
+    public func startLocationTracking() {
         NSLog("startLocationTracking")
         if CLLocationManager.locationServicesEnabled() == false {
             NSLog("locationServicesEnabled false")
@@ -85,8 +55,7 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
             let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
             rootVC?.presentViewController(alert, animated: true){}
-        }
-        else {
+        } else {
             if CLLocationManager.locationServicesEnabled() {
                 switch(CLLocationManager.authorizationStatus()) {
                     case .NotDetermined, .Restricted, .Denied:
@@ -101,7 +70,7 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
         }
     }
 
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         NSLog("locationManager didUpdateLocations")
         
@@ -125,19 +94,49 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
 
     }
     
-    func stopLocationToSaveBattery() {
-        NSLog("locationManager stop Updating")
+    public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        NSLog("locationManager error:%@",error);
+    }
+    
+    public func trackLocation() {
+        NSLog("trackLocation")
+        self.updateLocationToServer()
+    }
+    
+    public func restartLocationUpdates() {
+        NSLog("restartLocationUpdates")
+        if (self.timer != nil) {
+            self.timer.invalidate()
+            self.timer = nil
+        }
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    public func stopLocationToSaveBattery() {
+        NSLog("stopLocationToSaveBattery")
         locationManager.stopUpdatingLocation()
         self.delayToStart.invalidate()
         self.delayToStart = nil
         self.timer = NSTimer.scheduledTimerWithTimeInterval(restartTimer, target: self, selector: "restartLocationUpdates", userInfo: nil, repeats: false)
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        NSLog("locationManager error:%@",error);
+    //
+    // mark: private functions
+    //
+    
+    private func showAlert(message: String){
+        let alert = UIAlertController(title: "Error!", message:message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
+        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+        rootVC?.presentViewController(alert, animated: true){}
     }
     
-    func updateLocationToServer() {
+    private func applicationEnterBackground() {
+        self.startLocationManager()
+        self.bgTask = BackgroundTaskManager().mainBackgroundTaskManager()
+    }
+
+    private func updateLocationToServer() {
         NSLog("updateLocationToServer")
         NSLog("Send to Server: Latitude(%f) Longitude(%f)", self.latitude, self.longitude)
     }

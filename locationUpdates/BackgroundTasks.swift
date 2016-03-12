@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-class BackgroundTaskManager {
+public class BackgroundTaskManager {
     
-    var taskId = UIBackgroundTaskInvalid
-    var taskIdList = Array<Int>!()
+    private var taskId = UIBackgroundTaskInvalid
+    private var taskIdList = Array<Int>!()
     
-    let application: UIApplication = UIApplication.sharedApplication()
+    private let application: UIApplication = UIApplication.sharedApplication()
     
-    func mainBackgroundTaskManager() -> BackgroundTaskManager {
+    public func mainBackgroundTaskManager() -> BackgroundTaskManager {
         var BGTaskManager: BackgroundTaskManager!
         var token: dispatch_once_t = 0
         dispatch_once(&token) { () -> Void in
@@ -25,7 +25,7 @@ class BackgroundTaskManager {
         return BGTaskManager
     }
     
-    func beginNewBackgroundTask() -> UIBackgroundTaskIdentifier {
+    public func beginNewBackgroundTask() -> UIBackgroundTaskIdentifier {
         var bgTaskId: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
         if application.respondsToSelector("beginBackgroundTaskWithExpirationHandler:") {
             bgTaskId = application.beginBackgroundTaskWithExpirationHandler({() -> Void in
