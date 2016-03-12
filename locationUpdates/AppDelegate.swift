@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.location_init()
+        self.tracker.saveBatteryTimer = 5
         self.tracker.startLocationTracking()
         return true
     }
@@ -28,13 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
             self.showAlert("If you want to explore the functions of this app, you have to allow Background App Refresh.")
         } else {
-            let time: NSTimeInterval = 10.0
-            self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
+            self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
         }
     }
     
     func trackLocation() {
         NSLog("trackLocation")
+        self.tracker.updateLocationToServer()
     }
 
     func applicationWillResignActive(application: UIApplication) {
