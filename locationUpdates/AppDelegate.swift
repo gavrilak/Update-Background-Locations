@@ -14,7 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var updateTimer: NSTimer!
 
+    let tracker = LocationController()
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        self.location_init()
+        self.tracker.startLocationTracking()
+        return true
+    }
+    
+    private func location_init(){
         if UIApplication.sharedApplication().backgroundRefreshStatus == .Denied {
             self.showAlert("The app doesn't work without the Background App Refresh enabled. If you want to turn it on, go to Settings > General > Background App Refresh")
         } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
@@ -23,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let time: NSTimeInterval = 10.0
             self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
         }
-        return true
     }
     
     func trackLocation() {
@@ -53,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func showAlert(message: String){
-        let alert = UIAlertController(title: "Oops!", message:message, preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Error!", message:message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
         let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
         rootVC?.presentViewController(alert, animated: true){}
