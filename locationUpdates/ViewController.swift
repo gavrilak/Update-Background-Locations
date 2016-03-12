@@ -6,4 +6,8 @@
 //  Copyright © 2016 Vitor Oliveira. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ViewController : UIViewController {
+    
+}

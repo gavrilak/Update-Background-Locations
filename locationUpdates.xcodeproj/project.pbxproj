@@ -12,6 +12,8 @@
 		ED34B0E81C8E24F400415EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED34B0E71C8E24F400415EA6 /* Assets.xcassets */; };
 		ED34B0EB1C8E24F400415EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED34B0E91C8E24F400415EA6 /* LaunchScreen.storyboard */; };
 		ED34B0F31C8E251D00415EA6 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED34B0F21C8E251D00415EA6 /* Tracker.swift */; };
+		EDCB79101C94922100B162DE /* BackgroundTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCB790F1C94922100B162DE /* BackgroundTasks.swift */; };
+		EDCB79121C9495C900B162DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCB79111C9495C900B162DE /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		ED34B0EA1C8E24F400415EA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED34B0EC1C8E24F400415EA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED34B0F21C8E251D00415EA6 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		EDCB790F1C94922100B162DE /* BackgroundTasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundTasks.swift; sourceTree = "<group>"; };
+		EDCB79111C9495C900B162DE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,11 +59,13 @@
 			isa = PBXGroup;
 			children = (
 				ED34B0E01C8E24F400415EA6 /* AppDelegate.swift */,
+				EDCB790F1C94922100B162DE /* BackgroundTasks.swift */,
 				ED34B0F21C8E251D00415EA6 /* Tracker.swift */,
-				ED34B0E41C8E24F400415EA6 /* Main.storyboard */,
+				EDCB79111C9495C900B162DE /* ViewController.swift */,
 				ED34B0E71C8E24F400415EA6 /* Assets.xcassets */,
-				ED34B0E91C8E24F400415EA6 /* LaunchScreen.storyboard */,
 				ED34B0EC1C8E24F400415EA6 /* Info.plist */,
+				ED34B0E91C8E24F400415EA6 /* LaunchScreen.storyboard */,
+				ED34B0E41C8E24F400415EA6 /* Main.storyboard */,
 			);
 			path = locationUpdates;
 			sourceTree = "<group>";
@@ -140,7 +146,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDCB79121C9495C900B162DE /* ViewController.swift in Sources */,
 				ED34B0E11C8E24F400415EA6 /* AppDelegate.swift in Sources */,
+				EDCB79101C94922100B162DE /* BackgroundTasks.swift in Sources */,
 				ED34B0F31C8E251D00415EA6 /* Tracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +297,7 @@
 				ED34B0F11C8E24F400415EA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

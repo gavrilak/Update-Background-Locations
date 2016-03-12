@@ -35,11 +35,11 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
         } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
             showAlert("If you want to explore the functions of this app, you have to allow Background App Refresh.")
         } else {
-            self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(updateLocationTimer, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
+            updateTimer = NSTimer.scheduledTimerWithTimeInterval(updateLocationTimer, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
         }
     }
     
-    private func trackLocation() {
+    func trackLocation() {
         NSLog("trackLocation")
         self.updateLocationToServer()
     }
@@ -73,7 +73,7 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
     
     func applicationEnterBackground() {
         self.startLocationManager()
-        self.bgTask = BackgroundTaskManager().sharedBackgroundTaskManager()
+        self.bgTask = BackgroundTaskManager().mainBackgroundTaskManager()
     }
     
     func startLocationTracking() {
@@ -114,7 +114,7 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
             return
         }
             
-        self.bgTask = BackgroundTaskManager().sharedBackgroundTaskManager()
+        self.bgTask = BackgroundTaskManager().mainBackgroundTaskManager()
         self.bgTask.beginNewBackgroundTask()
         
         //stop the locationManager to save battery
