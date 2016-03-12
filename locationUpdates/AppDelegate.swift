@@ -12,32 +12,17 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var updateTimer: NSTimer!
-
     let tracker = LocationController()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        self.location_init()
+        self.tracker.location_init()
         self.tracker.saveBatteryTimer = 5
+        self.tracker.trackingDistance = 100.0
+        self.tracker.updateLocationTimer = 10.0
         self.tracker.startLocationTracking()
         return true
     }
     
-    private func location_init(){
-        if UIApplication.sharedApplication().backgroundRefreshStatus == .Denied {
-            self.showAlert("The app doesn't work without the Background App Refresh enabled. If you want to turn it on, go to Settings > General > Background App Refresh")
-        } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
-            self.showAlert("If you want to explore the functions of this app, you have to allow Background App Refresh.")
-        } else {
-            self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
-        }
-    }
-    
-    func trackLocation() {
-        NSLog("trackLocation")
-        self.tracker.updateLocationToServer()
-    }
-
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -58,13 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    private func showAlert(message: String){
-        let alert = UIAlertController(title: "Error!", message:message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
-        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
-        rootVC?.presentViewController(alert, animated: true){}
     }
     
 }

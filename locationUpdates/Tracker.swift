@@ -12,7 +12,10 @@ import CoreLocation
 class LocationController : UIViewController, CLLocationManagerDelegate {
     
     internal var saveBatteryTimer : Double!
+    internal var trackingDistance : Double!
+    internal var updateLocationTimer : Double!
     
+    var updateTimer: NSTimer!
     var timer: NSTimer!
     var delayToStart: NSTimer!
     var bgTask: BackgroundTaskManager!
@@ -26,13 +29,35 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
     var myLocation: CLLocationCoordinate2D!
     var myLocationAccuracy: CLLocationAccuracy!
     
+    func location_init(){
+        if UIApplication.sharedApplication().backgroundRefreshStatus == .Denied {
+            showAlert("The app doesn't work without the Background App Refresh enabled. If you want to turn it on, go to Settings > General > Background App Refresh")
+        } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
+            showAlert("If you want to explore the functions of this app, you have to allow Background App Refresh.")
+        } else {
+            self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(updateLocationTimer, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
+        }
+    }
+    
+    private func trackLocation() {
+        NSLog("trackLocation")
+        self.updateLocationToServer()
+    }
+    
+    private func showAlert(message: String){
+        let alert = UIAlertController(title: "Error!", message:message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
+        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+        rootVC?.presentViewController(alert, animated: true){}
+    }
+    
     private func startLocationManager(){
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = 100.0
+        locationManager.distanceFilter = trackingDistance
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
     }
@@ -62,13 +87,13 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
         }
         else {
             if CLLocationManager.locationServicesEnabled() {
-            //    switch(CLLocationManager.authorizationStatus()) {
-            //    case .NotDetermined, .Restricted, .Denied:
-            //        print("No access")
-            //    case .AuthorizedAlways, .AuthorizedWhenInUse:
-                NSLog("authorizationStatus authorized")
-                self.startLocationManager()
-             //   }
+                switch(CLLocationManager.authorizationStatus()) {
+                    case .NotDetermined, .Restricted, .Denied:
+                        print("No access")
+                    case .AuthorizedAlways, .AuthorizedWhenInUse:
+                        NSLog("authorizationStatus authorized")
+                    self.startLocationManager()
+                }
             } else {
                 print("Location services are not enabled")
             }
@@ -89,6 +114,9 @@ class LocationController : UIViewController, CLLocationManagerDelegate {
             return
         }
             
+        self.bgTask = BackgroundTaskManager().sharedBackgroundTaskManager()
+        self.bgTask.beginNewBackgroundTask()
+        
         //stop the locationManager to save battery
         if (self.delayToStart == nil) {
             self.delayToStart = NSTimer.scheduledTimerWithTimeInterval(saveBatteryTimer, target: self, selector: "stopLocationToSaveBattery", userInfo: nil, repeats: false)
