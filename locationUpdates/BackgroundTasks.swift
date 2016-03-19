@@ -12,7 +12,7 @@ import UIKit
 public class BackgroundTaskManager {
     
     private var taskId = UIBackgroundTaskInvalid
-    private var taskIdList = Array<Int>!()
+    private var taskIdList = Array<Int>()
     
     private let application: UIApplication = UIApplication.sharedApplication()
     

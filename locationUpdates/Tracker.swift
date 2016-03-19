@@ -60,9 +60,9 @@ public class TrackerController : UIViewController, CLLocationManagerDelegate {
                 switch(CLLocationManager.authorizationStatus()) {
                     case .NotDetermined, .Restricted, .Denied:
                         print("No access")
+                        self.startLocationManager()
                     case .AuthorizedAlways, .AuthorizedWhenInUse:
                         NSLog("authorizationStatus authorized")
-                    self.startLocationManager()
                 }
             } else {
                 print("Location services are not enabled")

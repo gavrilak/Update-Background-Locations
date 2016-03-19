@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.tracker.trackingDistance = 100.0
         self.tracker.updateLocationTimer = 10.0
         self.tracker.startLocationTracking()
-        self.tracker.location_init()
         return true
     }
     
