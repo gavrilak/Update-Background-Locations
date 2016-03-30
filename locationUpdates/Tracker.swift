@@ -37,14 +37,21 @@ public class TrackerController : UIViewController, CLLocationManagerDelegate {
     }
     
     public func startLocationManager(){
+        
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.allowsBackgroundLocationUpdates = true
+        
+        if #available(iOS 9.0, *) {
+            locationManager.allowsBackgroundLocationUpdates = true
+        } else {
+            // Fallback on earlier versions
+        }
+        
         locationManager.pausesLocationUpdatesAutomatically = false
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = trackingDistance
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        
     }
 
     public func startLocationTracking() {
