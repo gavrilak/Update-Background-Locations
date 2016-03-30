@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.tracker.trackingDistance = 100.0
         self.tracker.updateLocationTimer = 10.0
         self.tracker.startLocationTracking()
+        self.start_location()
         return true
     }
     
@@ -39,10 +40,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        self.start_location()
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    private func start_location(){
+        self.tracker.restartTimer = 60.0
+        self.tracker.startLocationManager()
+        self.tracker.startLocationTracking()
+        self.tracker.location_init()
+        
+    }
 }

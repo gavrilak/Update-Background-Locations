@@ -27,7 +27,7 @@ public class BackgroundTaskManager {
     
     public func beginNewBackgroundTask() -> UIBackgroundTaskIdentifier {
         var bgTaskId: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-        if application.respondsToSelector("beginBackgroundTaskWithExpirationHandler:") {
+        if application.respondsToSelector(#selector(UIApplication.beginBackgroundTaskWithExpirationHandler(_:))) {
             bgTaskId = application.beginBackgroundTaskWithExpirationHandler({() -> Void in
                 NSLog("background task %lu expired", UInt(bgTaskId))
                 self.taskIdList.removeObject(bgTaskId)
@@ -48,9 +48,9 @@ public class BackgroundTaskManager {
     
     private func endBackgroundTasks() {
         NSLog("end background tasks %lu", UInt(self.taskId))
-        if application.respondsToSelector("endBackgroundTask:") {
+        if application.respondsToSelector(#selector(UIApplication.endBackgroundTask(_:))) {
             let count: Int = self.taskIdList.count
-            for var i=1; i < count; i++ {
+            for _ in 1 ..< count {
                 let bgTaskId: UIBackgroundTaskIdentifier = Int(self.taskIdList[0])
                 NSLog("ending background task with id -%lu", UInt(bgTaskId))
                 self.application.endBackgroundTask(bgTaskId)

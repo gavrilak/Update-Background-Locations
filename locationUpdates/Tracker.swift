@@ -32,7 +32,7 @@ public class TrackerController : UIViewController, CLLocationManagerDelegate {
         } else if UIApplication.sharedApplication().backgroundRefreshStatus == .Restricted {
             showAlert("If you want to explore the functions of this app, you have to allow Background App Refresh.")
         } else {
-            updateTimer = NSTimer.scheduledTimerWithTimeInterval(updateLocationTimer, target: self, selector: "trackLocation", userInfo: nil, repeats: true)
+            updateTimer = NSTimer.scheduledTimerWithTimeInterval(updateLocationTimer, target: self, selector: #selector(TrackerController.trackLocation), userInfo: nil, repeats: true)
         }
     }
     
@@ -89,7 +89,7 @@ public class TrackerController : UIViewController, CLLocationManagerDelegate {
         
         //stop the locationManager to save battery
         if (self.delayToStart == nil) {
-            self.delayToStart = NSTimer.scheduledTimerWithTimeInterval(saveBatteryTimer, target: self, selector: "stopLocationToSaveBattery", userInfo: nil, repeats: false)
+            self.delayToStart = NSTimer.scheduledTimerWithTimeInterval(saveBatteryTimer, target: self, selector: #selector(TrackerController.stopLocationToSaveBattery), userInfo: nil, repeats: false)
         }
 
     }
@@ -117,7 +117,7 @@ public class TrackerController : UIViewController, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         self.delayToStart.invalidate()
         self.delayToStart = nil
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(restartTimer, target: self, selector: "restartLocationUpdates", userInfo: nil, repeats: false)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(restartTimer, target: self, selector: #selector(TrackerController.restartLocationUpdates), userInfo: nil, repeats: false)
     }
     
     //
