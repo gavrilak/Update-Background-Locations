@@ -19,10 +19,10 @@ Set the timer to stop the tracker to save battery (seconds):<BR><BR>
 ```tracker.updateLocationTimer = 10.0```
 <BR><BR>
 Set the timer to restart the manager to save battery (seconds):<BR><BR>
-```tracker.restartTimer = 5```
+```tracker.restartTimer = 5.0```
 <BR><BR>
 Set the timer to stop the tracker to save battery (seconds):<BR><BR>
-```tracker.saveBatteryTimer = 5```
+```tracker.saveBatteryTimer = 5.0```
 <BR><BR>
 Set the timer to stop the tracker to save battery (seconds):<BR><BR>
 ``` tracker.startLocationTracking() ```
@@ -36,4 +36,4 @@ Don't forget to add the following lines in your plist file:<BR><BR>
 I encourage you to contribute to this repository.
   
 # Updated for:
-Swift 2.0 (Xcode 7.2)
+Swift 2.0 (Xcode 7.3)
