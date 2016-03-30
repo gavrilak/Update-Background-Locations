@@ -53,27 +53,20 @@ public class TrackerController : UIViewController, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
         
     }
-
+    
     public func startLocationTracking() {
         NSLog("startLocationTracking")
-        if CLLocationManager.locationServicesEnabled() == false {
-            NSLog("locationServicesEnabled false")
-            let alert = UIAlertController(title: "Error!", message:"Location Services Disabled", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
-            let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
-            rootVC?.presentViewController(alert, animated: true){}
-        } else {
-            if CLLocationManager.locationServicesEnabled() {
-                switch(CLLocationManager.authorizationStatus()) {
-                    case .NotDetermined, .Restricted, .Denied:
-                        print("No access")
-                        self.startLocationManager()
-                    case .AuthorizedAlways, .AuthorizedWhenInUse:
-                        NSLog("authorizationStatus authorized")
-                }
-            } else {
-                print("Location services are not enabled")
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .NotDetermined, .Restricted, .Denied:
+                print("No access")
+                self.startLocationManager()
+            case .AuthorizedAlways, .AuthorizedWhenInUse:
+                NSLog("authorizationStatus authorized")
             }
+        } else {
+            print("Location services are not enabled")
+            self.startLocationManager()
         }
     }
 

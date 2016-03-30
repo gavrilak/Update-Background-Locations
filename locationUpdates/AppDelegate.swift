@@ -15,11 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let tracker = TrackerController()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        self.tracker.restartTimer = 5
-        self.tracker.saveBatteryTimer = 5
-        self.tracker.trackingDistance = 100.0
-        self.tracker.updateLocationTimer = 10.0
-        self.tracker.startLocationTracking()
         self.start_location()
         return true
     }
@@ -48,10 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func start_location(){
-        self.tracker.restartTimer = 60.0
+        self.tracker.restartTimer = 5.0
+        self.tracker.saveBatteryTimer = 5.0
+        self.tracker.trackingDistance = 100.0
+        self.tracker.updateLocationTimer = 10.0
         self.tracker.startLocationManager()
         self.tracker.startLocationTracking()
         self.tracker.location_init()
-        
     }
 }
